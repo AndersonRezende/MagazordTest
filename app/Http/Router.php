@@ -4,6 +4,7 @@ namespace App\Http;
 
 use Closure;
 use Exception;
+use ReflectionFunction;
 
 class Router
 {
@@ -48,32 +49,47 @@ class Router
     private function setPrefix()
     {
         $parseUrl = parse_url($this->url);
-        $this->prefix = $parseUrl['path'] ? $parseUrl['path'] : '';
+        $this->prefix = $parseUrl['path'] ?? '';
 
     }
 
     /**
-     * Adiciona uma rota na classe
-     * @param $method
-     * @param $route
-     * @param $params
+     * Adiciona uma rota na classe.
+     * @param $method <p>
+     * Método de requisição http.
+     * </p>
+     * @param $route <p>
+     * Rota de acesso.
+     * </p>
+     * @param $params <p>
+     * Função (controlador ou anônima) que executará a ação.
+     * </p>
      * @return void
      */
     private function addRoute($method, $route, $params = [])
     {
-        //Validação dos parâmetros
+        // Verifica se existe uma closure (função anônima) e, caso exista, adiciona o índice controller para ela.
         foreach ($params as $key => $value) {
-            if($value instanceof Closure) {
-                //Troca posição numérica do array para uma chave controller
+            if ($value instanceof Closure) {
                 $params['controller'] = $value;
                 unset($params[$key]);
-                continue;
             }
         }
 
-        //Regex para validação da URL
-        $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
+        // Define um índice para variáveis da rota. Ex: dominio.com/pessoa/10
+        $params['variables'] = [];
 
+        // Regex para validação da existência de variáveis na rota.
+        // Caso exista, a lista de variáveis da rota são armazenadas em um índice e suas respectivas ocorrências
+        // na rota serão substituidas por um regex equivalente.
+        $patternVariable = '/{(.*?)}/';
+        if (preg_match_all($patternVariable, $route, $matches)) {
+            $route = preg_replace($patternVariable, '(.*?)', $route);
+            $params['variables'] = $matches[1];
+        }
+
+        // Faz a adaptação para adequar o regex para validação da URL
+        $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
         $this->routes[$patternRoute][$method] = $params;
     }
 
@@ -128,7 +144,7 @@ class Router
     private function getUri()
     {
         $uri = $this->request->getUri();
-        //Divide a uri com o prefix
+        // Divide a uri com o prefix
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
         return end($xUri);
     }
@@ -140,13 +156,20 @@ class Router
     private function getRoute()
     {
         $uri = $this->getUri();
-        $method = $this->request->getHttpMethod();
-
         $httpMethod = $this->request->getHttpMethod();
         foreach ($this->routes as $patternRoute => $methods) {
-            if(preg_match($patternRoute, $uri)) {
-                //Valida o método
-                if($methods[$httpMethod]) {
+            // Verifica se alguma das regex criadas na definição da rota é compatível com a URI informada
+            if (preg_match($patternRoute, $uri, $matches)) {
+                // Caso seja compatível, verifica se o verbo html também é compatível
+                if (isset($methods[$httpMethod])) {
+                    // Remove a posição inicial que contém a uri completa
+                    unset($matches[0]);
+
+                    // Variáveis processadas
+                    $keys = $methods[$httpMethod]['variables'];
+                    $methods[$httpMethod]['variables'] = array_combine($keys, $matches);
+                    $methods[$httpMethod]['variables']['request'] = $this->request;
+
                     return $methods[$httpMethod];
                 }
                 throw new Exception("Método não permitido", 405);
@@ -163,11 +186,21 @@ class Router
     {
         try {
             $route = $this->getRoute();
-            if(!isset($route['controller'])) {
+            if (!isset($route['controller'])) {
                 throw new Exception('URL não pôde ser processada', 500);
             }
 
+            // Argumentos da função
             $args = [];
+
+            // Reflection para obter dados ("descompilação") da função
+            // Receberá o controlador para conseguir obter os dados da função
+            $reflection = new ReflectionFunction($route['controller']);
+            foreach ($reflection->getParameters() as $parameter) {
+                $name = $parameter->getName();
+                $args[$name] = $route['variables'][$name] ?? '';
+            }
+
             return call_user_func_array($route['controller'], $args);
         } catch (Exception $exception) {
             return new Response($exception->getCode(), $exception->getMessage());

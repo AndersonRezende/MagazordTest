@@ -15,4 +15,9 @@ class HomeController
             'cpf' => $person->cpf
         ]);
     }
+
+    public static function about()
+    {
+        return View::render('about', []);
+    }
 }

@@ -8,6 +8,23 @@ class View
     private static $layoutPattern = '/@layout\s*(\(\'[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\'\))/';
 
     /**
+     * Variáveis padrões da view
+     * @var array
+     */
+    private static $vars = [];
+
+    /**
+     * Dados iniciais da classe
+     * @param $vars
+     * @return void
+     */
+    public static function init($vars = [])
+    {
+        self::$vars = $vars;
+    }
+
+
+    /**
      * Método responsável por retornar o conteudo da view
      * @param string $view
      * @return false|string
@@ -65,6 +82,7 @@ class View
     public static function render($view, $vars = [])
     {
         $contentView = self::getContentView($view);
+        $vars = array_merge(self::$vars, $vars);
 
         $keys = array_keys($vars);
         // Mapeia os dados separados por chaves na view

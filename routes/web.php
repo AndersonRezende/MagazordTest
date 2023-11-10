@@ -13,3 +13,15 @@ $router->get('/', [
         return new Response(200, HomeController::index());
     }
 ]);
+
+$router->get('/sobre', [
+    function() {
+        return new Response(200, HomeController::about());
+    }
+]);
+
+$router->get('/pagina/{idPagina}/{acao}', [
+    function($idPagina, $acao) {
+        return new Response(200, 'Página'.$idPagina.'-'.$acao);
+    }
+]);
