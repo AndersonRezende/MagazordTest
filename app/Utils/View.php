@@ -93,4 +93,19 @@ class View
         $contentView = str_replace($keys, array_values($vars), $contentView);
         return self::renderWithLayout($contentView);
     }
+
+    public static function renderPartial($partial, $vars = [])
+    {
+        $contentView = self::getContentView($partial);
+        $vars = array_merge(self::$vars, $vars);
+
+        $keys = array_keys($vars);
+        // Mapeia os dados separados por chaves na view
+        $keys = array_map(function ($item) {
+            return '{{'.$item.'}}';
+        }, $keys);
+
+        $contentView = str_replace($keys, array_values($vars), $contentView);
+        return $contentView;
+    }
 }

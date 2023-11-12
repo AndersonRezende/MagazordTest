@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Model\Entity\Person;
-use \App\Utils\View;
+use App\Entity\Person;
+use App\Utils\View;
 
 class HomeController
 {
@@ -11,8 +11,8 @@ class HomeController
     {
         $person = new Person();
         return View::render('home', [
-            'name' => $person->name,
-            'cpf' => $person->cpf
+            'name' => "Anderson Rezende",
+            'cpf' => "123.456.789-10"
         ]);
     }
 

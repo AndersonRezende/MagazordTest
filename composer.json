@@ -19,7 +19,12 @@
       "App\\": "app/"
     },
     "files": [
-      "app/Config.php"
     ]
+  },
+  "require": {
+    "doctrine/dbal": "^3.7",
+    "william-costa/dot-env": "^0.1.0",
+    "doctrine/orm": "^2.16",
+    "symfony/cache": "^6.3"
   }
 }

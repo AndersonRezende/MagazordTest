@@ -20,6 +20,18 @@ $router->get('/sobre', [
     }
 ]);
 
+$router->get('/pessoas', [
+    function() {
+        return new Response(200, \App\Controller\PersonController::index());
+    }
+]);
+
+$router->post('/pessoas', [
+    function($request) {
+        return new Response(200, \App\Controller\PersonController::store($request));
+    }
+]);
+
 $router->get('/pagina/{idPagina}/{acao}', [
     function($idPagina, $acao) {
         return new Response(200, 'Página'.$idPagina.'-'.$acao);
