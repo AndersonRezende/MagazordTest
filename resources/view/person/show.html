@@ -1,0 +1,23 @@
+@layout('page')
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-12 mx-auto">
+        <h1 class="fw-light">Dados de Pessoas</h1>
+      </div>
+      <div class="col-12 d-flex justify-content-center">
+        <div class="card" style="width: 18rem;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Nome: {{name}}</li>
+            <li class="list-group-item">CPF: {{cpf}}</li>
+            <li class="list-group-item">Quantidade de contatos: {{qtd_contacts}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+      {{contact-item}}
+    </div>
+  </section>
+</main>

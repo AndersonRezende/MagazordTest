@@ -17,7 +17,7 @@ class Person
 {
     #[Id]
     #[Column, GeneratedValue(strategy: "AUTO")]
-    public int $id = 1;
+    public $id = 1;
 
     #[Column(length: 100)]
     public string $name;
@@ -65,6 +65,11 @@ class Person
     public function setCpf(string $cpf): void
     {
         $this->cpf = $cpf;
+    }
+
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
     }
 
     public function addContact(Contact $contact)

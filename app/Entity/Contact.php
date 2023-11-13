@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
@@ -15,7 +16,7 @@ class Contact
 {
     #[Id]
     #[Column, GeneratedValue(strategy: "AUTO")]
-    public int $id = 1;
+    public $id = 1;
 
     #[Column(name: 'person_id')]
     public string $personId;
@@ -26,7 +27,8 @@ class Contact
     #[Column]
     public string $description;
 
-    #[ManyToOne(inversedBy: 'person')]
+    #[ManyToOne(targetEntity: Person::class, inversedBy: 'contacts')]
+    #[JoinColumn(name: 'person_id', referencedColumnName: 'id', nullable: false)]
     private Person $person;
 
     public function getId(): int
@@ -79,5 +81,8 @@ class Contact
         $this->person = $person;
     }
 
-
+    public function getType()
+    {
+        return $this->isType() ? 'telefone' : 'email';
+    }
 }

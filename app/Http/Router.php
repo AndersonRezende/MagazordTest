@@ -206,4 +206,10 @@ class Router
             return new Response($exception->getCode(), $exception->getMessage());
         }
     }
+
+    public static function redirect($route)
+    {
+        header("Location: $route");
+        exit();
+    }
 }

@@ -26,14 +26,44 @@ $router->get('/pessoas', [
     }
 ]);
 
+$router->get('/pessoas/novo', [
+    function() {
+        return new Response(200, \App\Controller\PersonController::create());
+    }
+]);
+
+$router->get('/pessoas/editar/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\PersonController::edit($id));
+    }
+]);
+
+$router->post('/pessoas/atualizar/{id}', [
+    function($request, $id) {
+        return new Response(200, \App\Controller\PersonController::update($request, $id));
+    }
+]);
+
+$router->get('/pessoas/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\PersonController::show($id));
+    }
+]);
+
+$router->post('/destroy/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\PersonController::destroy($id));
+    }
+]);
+
 $router->post('/pessoas', [
     function($request) {
         return new Response(200, \App\Controller\PersonController::store($request));
     }
 ]);
 
-$router->get('/pagina/{idPagina}/{acao}', [
-    function($idPagina, $acao) {
-        return new Response(200, 'Página'.$idPagina.'-'.$acao);
+$router->get('/pagina/teste/{idPagina}', [
+    function($idPagina) {
+        return new Response(200, 'Página'.$idPagina.'-');
     }
 ]);
