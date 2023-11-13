@@ -8,6 +8,24 @@
                     <i class="bi bi-plus"></i>
                     Adicionar
                 </a>
+
+                <form class="mt-5" method="get" action="/pessoas">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="inputPassword6" class="col-form-label">Nome</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="search" class="form-control" aria-describedby="passwordHelpInline" name="name">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search"></i>
+                                Pesquisar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
                 <table class="table">
                     <thead>
                     <tr>
@@ -19,7 +37,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        {{item}}
+                    {{item}}
                     </tbody>
                 </table>
             </div>

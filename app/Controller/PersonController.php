@@ -12,9 +12,17 @@ use App\Validator\PersonValidator;
 
 class PersonController
 {
-    public static function index()
+    public static function index($request = null)
     {
-        $people = self::getRepository()->findAll();
+        if($request) {
+            $name = $request->getQueryParams()['name'];
+            $people = self::getRepository()->createQueryBuilder('p')
+                ->where('LOWER(p.name) LIKE :name')
+                ->setParameter('name', '%' . strtolower($name) . '%')
+                ->getQuery()->getResult();
+        } else {
+            $people = self::getRepository()->findAll();
+        }
 
         $item = '';
         foreach ($people as $person) {

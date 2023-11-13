@@ -26,6 +26,12 @@ $router->get('/pessoas', [
     }
 ]);
 
+$router->get('/pessoas{query}', [
+    function($request) {
+        return new Response(200, \App\Controller\PersonController::index($request));
+    }
+]);
+
 $router->get('/pessoas/novo', [
     function() {
         return new Response(200, \App\Controller\PersonController::create());
