@@ -62,6 +62,51 @@ $router->post('/pessoas', [
     }
 ]);
 
+
+
+
+$router->get('/contatos', [
+    function() {
+        return new Response(200, \App\Controller\ContactController::index());
+    }
+]);
+
+$router->get('/contatos/novo', [
+    function() {
+        return new Response(200, \App\Controller\ContactController::create());
+    }
+]);
+
+$router->get('/contatos/editar/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\ContactController::edit($id));
+    }
+]);
+
+$router->post('/contatos/atualizar/{id}', [
+    function($request, $id) {
+        return new Response(200, \App\Controller\ContactController::update($request, $id));
+    }
+]);
+
+$router->get('/contatos/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\ContactController::show($id));
+    }
+]);
+
+$router->post('/destroy-c/{id}', [
+    function($id) {
+        return new Response(200, \App\Controller\ContactController::destroy($id));
+    }
+]);
+
+$router->post('/contatos', [
+    function($request) {
+        return new Response(200, \App\Controller\ContactController::store($request));
+    }
+]);
+
 $router->get('/pagina/teste/{idPagina}', [
     function($idPagina) {
         return new Response(200, 'Página'.$idPagina.'-');

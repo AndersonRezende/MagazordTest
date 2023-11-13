@@ -1,0 +1,28 @@
+@layout('page')
+<main>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-9 col-md-8 mx-auto">
+                <h1 class="fw-light">Listagem de Contatos</h1>
+                <a type="button" class="btn btn-primary" href="/contatos/novo">
+                    <i class="bi bi-plus"></i>
+                    Adicionar
+                </a>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Pessoa</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Operações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{item}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>

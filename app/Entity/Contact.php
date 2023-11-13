@@ -18,9 +18,6 @@ class Contact
     #[Column, GeneratedValue(strategy: "AUTO")]
     public $id = 1;
 
-    #[Column(name: 'person_id')]
-    public string $personId;
-
     #[Column]
     public bool $type;
 
@@ -39,16 +36,6 @@ class Contact
     public function setId(int $id): void
     {
         $this->id = $id;
-    }
-
-    public function getPersonId(): string
-    {
-        return $this->personId;
-    }
-
-    public function setPersonId(string $personId): void
-    {
-        $this->personId = $personId;
     }
 
     public function isType(): bool

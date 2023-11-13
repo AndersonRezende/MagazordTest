@@ -1,0 +1,24 @@
+<tr>
+  <th scope="row">{{id}}</th>
+  <td>{{person}}</td>
+  <td>{{type}}</td>
+  <td>{{description}}</td>
+  <td class="d-flex form-inline">
+    <a type="button" class="btn btn-primary" href="/contatos/{{id}}">
+      <i class="bi bi-eye"></i>
+      Exibir
+    </a>
+    <a type="button" class="btn btn-info" href="/contatos/editar/{{id}}">
+      <i class="bi bi-pencil"></i>
+      Editar
+    </a>
+
+    <form action="/destroy-c/{{id}}" method="POST">
+      <input type="hidden" value="{{id}}">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i>
+        Deletar
+      </button>
+    </form>
+  </td>
+</tr>

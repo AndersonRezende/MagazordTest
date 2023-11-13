@@ -1,0 +1,32 @@
+@layout('page')
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Cadastro de Pessoas</h1>
+        <form method="post" action="/contatos">
+          <div class="mb-3">
+            <label for="person" class="form-label">Pessoa</label>
+            <select class="form-select" aria-label="Default select example" name="person">
+              {{people}}
+            </select>
+            <div id="nameHelp" class="form-text">Selecione a pessoa do contato.</div>
+          </div>
+          <div class="mb-3">
+            <label for="type" class="form-label">Tipo</label>
+            <select class="form-select" aria-label="Default select example" name="type">
+              {{type}}
+            </select>
+            <div id="nameHelp" class="form-text">Selecione o tipo de contato.</div>
+          </div>
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input type="text" class="form-control" id="descricao" aria-describedby="descricaoHelp" name="description">
+            <div id="descricaoHelp" class="form-text">Insira a descrição correspondente</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
