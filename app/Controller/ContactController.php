@@ -11,8 +11,6 @@ use App\Http\Router;
 use App\Utils\View;
 use App\Validator\ContactValidator;
 
-//use App\Validator\contactValidator;
-
 class ContactController
 {
     public static function index()

@@ -13,5 +13,6 @@
 - Renomear o arquivo .env.example para .env
 - Configurar as variáveis do arquivo .env de acordo com as configurações de banco do seu usuário
 - Rodar o comando: $ composer install && composer-dump autoload
+- Gerar as classes de entidade. Pode ser realizado com o comando: $ php vendor/bin/doctrine orm:generate-proxies
 - Subir o projeto com o comando: $ php -S localhost:8000
 - Acessar o navegador no endereço localhost:8000

@@ -26,7 +26,7 @@ $router->get('/pessoas', [
     }
 ]);
 
-$router->get('/pessoas{query}', [
+$router->get('/pessoas/busca/{query}', [
     function($request) {
         return new Response(200, \App\Controller\PersonController::index($request));
     }
